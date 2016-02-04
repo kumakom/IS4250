@@ -1,7 +1,8 @@
 library("Rcmdr")
 library(ggplot2)
 
-library(dplyr)    
+library(dplyr)  
+#gender & svcsat
 filter(labs, Gender == "F", SvcSat == "Y")
 filter(labs, Gender == "F", SvcSat == "N")
 filter(labs, Gender == "M", SvcSat == "Y")
@@ -13,6 +14,7 @@ dat.m <- melt(dat, id.vars='SvcSat')
 ggplot(dat.m, aes(variable, value)) + geom_bar(aes(fill = SvcSat), stat='identity', position = "dodge")
 ggplot(dat.m, aes(x=SvcSat, y=value)) + geom_bar(aes(fill = SvcSat), stat='identity') + facet_grid(.~variable) 
 
+#age groups & svcsat
 filter(labs, AGE > 10, AGE <= 20, SvcSat == "Y")
 filter(labs, AGE > 10, AGE <= 20, SvcSat == "N")
 filter(labs, AGE > 20, AGE <= 30, SvcSat == "Y")
