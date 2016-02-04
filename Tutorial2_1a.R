@@ -1,0 +1,6 @@
+library("Rcmdr")
+summary(labs)
+ggplot(labs)
+hist(labs$WaitTime)
+library(ggplot2)
+ggplot(labs, aes(WaitTime)) + geom_histogram(aes(fill=WaitTime > 70))
