@@ -1,3 +1,44 @@
+library("Rcmdr")
+library(ggplot2)
+library(dplyr)  
+
+## Question 1a
+summary(labs)
+ggplot(labs)
+hist(labs$WaitTime)
+library(ggplot2)
+ggplot(labs, aes(WaitTime)) + geom_histogram(aes(fill=WaitTime > 70))
+
+## Question 1b
+#gender & svcsat
+filter(labs, Gender == "F", SvcSat == "Y")
+filter(labs, Gender == "F", SvcSat == "N")
+filter(labs, Gender == "M", SvcSat == "Y")
+filter(labs, Gender == "M", SvcSat == "N")
+dat <- data.frame(SvcSat=c('Y','N'), Female=c(73,9), Male=c(53,16))
+library(reshape2)
+dat.m <- melt(dat, id.vars='SvcSat')
+ggplot(dat.m, aes(variable, value)) + geom_bar(aes(fill = SvcSat), stat='identity', position = "dodge")
+ggplot(dat.m, aes(x=SvcSat, y=value)) + geom_bar(aes(fill = SvcSat), stat='identity') + facet_grid(.~variable) 
+#age groups & svcsat
+filter(labs, AGE > 10, AGE <= 20, SvcSat == "Y")
+filter(labs, AGE > 10, AGE <= 20, SvcSat == "N")
+filter(labs, AGE > 20, AGE <= 30, SvcSat == "Y")
+filter(labs, AGE > 20, AGE <= 30, SvcSat == "N")
+filter(labs, AGE > 30, AGE <= 40, SvcSat == "Y")
+filter(labs, AGE > 30, AGE <= 40, SvcSat == "N")
+filter(labs, AGE > 40, AGE <= 50, SvcSat == "Y")
+filter(labs, AGE > 40, AGE <= 50, SvcSat == "N")
+filter(labs, AGE > 50, AGE <= 60, SvcSat == "Y")
+filter(labs, AGE > 50, AGE <= 60, SvcSat == "N")
+filter(labs, AGE > 60, SvcSat == "Y")
+filter(labs, AGE > 60, SvcSat == "N")
+dm <- data.frame(SvcSat=c('Y','N'), Age_below_20=c(7,0), Age_21to30=c(49,6), Age_31to40=c(18,1), Age_41to50=c(9,7), Age_above_60=c(6,9))
+mm <- melt(dm, id.vars='SvcSat')
+ggplot(mm, aes(variable, value)) + geom_bar(aes(fill = SvcSat), stat='identity', position = "dodge")
+
+
+
 ## Question 1c
 labs$BMI = labs$WT/(labs$HT *labs$HT)
 bmi<-data.frame(labs$BMI,labs$TC)
@@ -17,7 +58,6 @@ labs$Malay=0
 labs$Indian=0
 labs$Male=0
 labs$Female =0
-
 for(i in 1:nrow(labs)){
   if(labs$ETHNIC[i]=="C"){
     labs$Chinese[i]=1
@@ -35,7 +75,6 @@ for(i in 1:nrow(labs)){
     labs$Female[i]=1
   }
 }
-
 reg<-data.frame(labs$BMI,labs$AGE, labs$SBP,labs$TC,labs$Male,labs$Female,labs$Chinese,labs$Malay,labs$Indian)
 reg$labs.TC <- as.numeric(reg$labs.TC)
 reg$labs.BMI <- as.numeric(reg$labs.BMI)
